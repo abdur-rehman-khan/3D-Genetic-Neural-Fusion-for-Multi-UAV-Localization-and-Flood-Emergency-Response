@@ -7,7 +7,12 @@
 
 
 
-![Hospital AI Chatbot](3D%Genetic%Neural%Fusion%for%Multi-UAV.png)
+## 🎥 Platform Demonstration
+
+
+![GenNFRescue 3D Genetic Neural Fusion](3D%20Genetic%20Neural%20Fusion%20for%20Multi-UAV.png)
+[▶ Watch the GenNFRescue Platform Demo](./3D%20Genetic%20Neural%20Fusion%20for%20Multi-UAV%20Localization%20and%20Flood%20Emergency.mp4)
+
 
 
 ⚠️ **Simulation only.** RSSI is synthetic and missions are simulated. Nothing here establishes field performance or is a real emergency system.
