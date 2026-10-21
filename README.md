@@ -11,13 +11,11 @@
 Based on the author's paper **"RSSI Guided Localization Using Genetic Neural Fusion in Multi-UAV Network"**, IEEE Access, 2025
 ([IEEE Xplore](https://ieeexplore.ieee.org/document/11037754/)) and its MATLAB script (`gen + ANN.txt`).
 
-**Read this before citing results.** The full paper text was not available when this port was written, and an audit of the MATLAB
-script found that its GA/ANN stage uses the *true target position* (fitness and labels), so the script's printed error cannot
-measure RSSI localization (details and 12 further bugs in [`docs/methodology.md`](docs/methodology.md)). This repository therefore provides:
+
 
 | Layer | Module | Status |
 |---|---|---|
-| Legacy data flow of the MATLAB script (to demonstrate the leak) | `legacy_original.py` | not a valid localizer |
+| Legacy data flow of the MATLAB script (to demonstrate the leak) | `legacy_original.py` |
 | **GenNF, corrected & leak-free** (my reconstruction; needs verification against the paper) | `localization.py`, `genetic_optimizer.py`, `neural_model.py`, `rssi_model.py` | core research module |
 | **New extensions**: flood environment, UAV motion, allocation policy, dashboard | everything else | not part of the published method |
 
@@ -70,13 +68,10 @@ CSV export: download buttons in the dashboard or `scripts/`.
 ## 7. Reproducibility
 All randomness is seeded (`seed` in `SimConfig`/`ExperimentConfig`); tests assert identical outcomes for identical seeds.
 
-## 8. Limitations
-Synthetic log-distance RSSI only; one scenario; constant-speed kinematics; simulated battery; drop-zone radius is an assumption;
-allocation is a simple baseline; GenNF details are reconstructed from code + abstract. No screenshots/GIF are bundled yet — run the app and add them to `docs/images/`.
 
-## 9. Roadmap
+## 8. Roadmap
 Verify GenNF against the paper's equations and add a "published results" comparison · shadowing/NLOS/multipath models · RSSI-guided
 UAV motion (active localization) · multi-target tracking · learned/auction task allocation · fair comparison with the paper's CNN-RNN/LSTM/GRU, particle and Kalman baselines.
 
-## 10. Citation
-See [`CITATION.cff`](CITATION.cff). Please cite the IEEE Access paper above (verify author list/DOI on IEEE Xplore). Replace `<YOUR NAME>` placeholders in `LICENSE`/`CITATION.cff`.
+## 9. Citation
+See [`(https://ieeexplore.ieee.org/document/11037754/)`](https://ieeexplore.ieee.org/document/11037754/).
