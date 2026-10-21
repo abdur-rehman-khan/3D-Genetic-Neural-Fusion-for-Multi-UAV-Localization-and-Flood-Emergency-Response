@@ -3,7 +3,7 @@
 *An interactive Python simulation for RSSI-based 3D localization, cooperative UAV coordination, and first-aid delivery in flood-affected environments.*
 
 > Tagline: *RSSI-based 3D victim localization with Genetic Neural Fusion, driving a 10-UAV flood-rescue simulation.*
-> Suggested topics: `uav` `multi-agent-systems` `rssi` `localization` `genetic-algorithm` `neural-network` `disaster-response` `plotly` `streamlit` `simulation`
+> Suggested topics: `uav` `multi-agent-systems` `rssi` `localization` `genetic algorithm` `artificial neural network` `disaster-response` `plotly` `streamlit` `simulation`
 
 ⚠️ **Simulation only.** RSSI is synthetic and missions are simulated. Nothing here establishes field performance or is a real emergency system.
 
@@ -41,7 +41,7 @@ flowchart LR
   V -.evaluation only.-> M[Metrics: error, RMSE, MAE]
   E -.-> M
 ```
-`src/gennf/`: `rssi_model` · `localization` · `genetic_optimizer` · `neural_model` · `legacy_original` · `uav_network` · `flood_environment` · `rescue_allocation` · `simulation` · `experiments` · `metrics` · `visualization`. UI: `app.py`.
+`src/gennf/`: `rssi model` · `localization` · `genetic optimizer` · `ANN model` · `legacy_original` · `uav network` · `flood environment` · `rescue allocation` · `simulation` · `experiments` · `metrics` · `visualization`. UI: `app.py`.
 
 ## 4. Mathematics
 RSSI(d) = P₀ − 10·n·log₁₀(d/d₀) + 𝒩(0, σ²) dBm, inverted as d̂ = d₀·10^((P₀−RSSI)/(10n)). Distances use x, y **and** z.
@@ -67,28 +67,16 @@ python scripts/export_results.py --seed 42 --out results   # CSVs + standalone s
 metrics/charts at any time step. Limitation: changing a parameter requires a re-run rather than live mid-flight editing.
 CSV export: download buttons in the dashboard or `scripts/`.
 
-## 7. Example results (newly generated; 5 seeds × 200 trials, σ = 1 dB)
-| Method | Mean error (m) | RMSE 3D (m) | Success ≤ 20 m |
-|---|---|---|---|
-| GenNF (corrected) | 17.1 | 22.0 | 0.75 |
-| GenNF without GA init | 17.9 | 22.4 | 0.71 |
-| Geometric stage only | 19.6 | 26.3 | 0.67 |
-| Least squares, same 4 anchors | 24.0 | 35.8 | 0.61 |
-| Least squares, all anchors | 18.4 | 26.5 | 0.71 |
-
-Honest reading: modest gain over baselines at σ ≥ 1 dB, **no gain at σ = 0**, and **no clear benefit from the GA** in this setup. Full tables
-and caveats: [`docs/experimental_protocol.md`](docs/experimental_protocol.md). Published numbers are *not* reproduced.
-
-## 8. Reproducibility
+## 7. Reproducibility
 All randomness is seeded (`seed` in `SimConfig`/`ExperimentConfig`); tests assert identical outcomes for identical seeds.
 
-## 9. Limitations
+## 8. Limitations
 Synthetic log-distance RSSI only; one scenario; constant-speed kinematics; simulated battery; drop-zone radius is an assumption;
 allocation is a simple baseline; GenNF details are reconstructed from code + abstract. No screenshots/GIF are bundled yet — run the app and add them to `docs/images/`.
 
-## 10. Roadmap
+## 9. Roadmap
 Verify GenNF against the paper's equations and add a "published results" comparison · shadowing/NLOS/multipath models · RSSI-guided
 UAV motion (active localization) · multi-target tracking · learned/auction task allocation · fair comparison with the paper's CNN-RNN/LSTM/GRU, particle and Kalman baselines.
 
-## 11. Citation
+## 10. Citation
 See [`CITATION.cff`](CITATION.cff). Please cite the IEEE Access paper above (verify author list/DOI on IEEE Xplore). Replace `<YOUR NAME>` placeholders in `LICENSE`/`CITATION.cff`.
