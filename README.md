@@ -1,5 +1,5 @@
-# GenNFRescue
-**3D Genetic Neural Fusion for Multi-UAV Localization and Flood Emergency Response**
+# 3D Genetic Neural Fusion for Multi-UAV Localization and Flood Emergency Response
+**Multi-UAV Localization and Flood Emergency Response**
 *An interactive Python simulation for RSSI-based 3D localization, cooperative UAV coordination, and first-aid delivery in flood-affected environments.*
 
 > Tagline: *RSSI-based 3D victim localization with Genetic Neural Fusion, driving a 10-UAV flood-rescue simulation.*
