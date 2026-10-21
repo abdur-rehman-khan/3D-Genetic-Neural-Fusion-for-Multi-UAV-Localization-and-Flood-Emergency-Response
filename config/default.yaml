@@ -1,0 +1,19 @@
+# Default research-experiment configuration (see src/gennf/experiments.py::ExperimentConfig)
+seed: 0
+n_trials: 200
+n_uavs: 10            # default experiment = 10 UAVs
+n_available: 10
+deployment: random    # random | grid | ring | two_layer
+area: 200.0           # metres (x, y); targets z in [0, 35] m, UAVs z in [22, 50] m
+noise_db: 1.0
+comm_range: 150.0
+p0_dbm: -40.0
+path_loss_exp: 2.7
+geometry: trilateration   # trilateration (corrected) | pairwise (MATLAB structure)
+use_ga: true
+ga_population: 100        # MATLAB script values
+ga_generations: 50
+ga_mutation_rate: 0.05
+n_train: 3000
+epochs: 150
+success_threshold_m: 20.0

@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the original paper below and this repository."
+title: "GenNFRescue: 3D Genetic Neural Fusion for Multi-UAV Localization and Flood Emergency Response"
+type: software
+version: 0.1.0
+authors:
+  - family-names: "<YOUR FAMILY NAME>"
+    given-names: "<YOUR GIVEN NAME>"
+license: MIT
+repository-code: "https://github.com/<your-username>/gennf-rescue"
+preferred-citation:
+  type: article
+  title: "RSSI Guided Localization Using Genetic Neural Fusion in Multi-UAV Network"
+  journal: "IEEE Access"
+  year: 2025
+  url: "https://ieeexplore.ieee.org/document/11037754/"
+  authors:
+    - {family-names: "Ghauri", given-names: "Abdur Rehman Khan"}
+    - {family-names: "Khan", given-names: "Inam Ullah"}
+    - {family-names: "Rahman", given-names: "Hameedur"}
+    - {family-names: "Alam", given-names: "Muhammad Mansoor"}
+    - {family-names: "Su'ud", given-names: "Mazliham Mohd"}
+  notes: "Author names/order transcribed from a university repository record; please verify against the IEEE Xplore page and add volume/pages/DOI."

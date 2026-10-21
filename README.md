@@ -1,0 +1,94 @@
+# GenNFRescue
+**3D Genetic Neural Fusion for Multi-UAV Localization and Flood Emergency Response**
+*An interactive Python simulation for RSSI-based 3D localization, cooperative UAV coordination, and first-aid delivery in flood-affected environments.*
+
+> Tagline: *RSSI-based 3D victim localization with Genetic Neural Fusion, driving a 10-UAV flood-rescue simulation.*
+> Suggested topics: `uav` `multi-agent-systems` `rssi` `localization` `genetic-algorithm` `neural-network` `disaster-response` `plotly` `streamlit` `simulation`
+
+⚠️ **Simulation only.** RSSI is synthetic and missions are simulated. Nothing here establishes field performance or is a real emergency system.
+
+## 1. Relationship to the paper
+Based on the author's paper **"RSSI Guided Localization Using Genetic Neural Fusion in Multi-UAV Network"**, IEEE Access, 2025
+([IEEE Xplore](https://ieeexplore.ieee.org/document/11037754/)) and its MATLAB script (`gen + ANN.txt`).
+
+**Read this before citing results.** The full paper text was not available when this port was written, and an audit of the MATLAB
+script found that its GA/ANN stage uses the *true target position* (fitness and labels), so the script's printed error cannot
+measure RSSI localization (details and 12 further bugs in [`docs/methodology.md`](docs/methodology.md)). This repository therefore provides:
+
+| Layer | Module | Status |
+|---|---|---|
+| Legacy data flow of the MATLAB script (to demonstrate the leak) | `legacy_original.py` | not a valid localizer |
+| **GenNF, corrected & leak-free** (my reconstruction; needs verification against the paper) | `localization.py`, `genetic_optimizer.py`, `neural_model.py`, `rssi_model.py` | core research module |
+| **New extensions**: flood environment, UAV motion, allocation policy, dashboard | everything else | not part of the published method |
+
+## 2. Features
+* 10-UAV network by default (adjustable 4-20), log-distance RSSI model with noise, range limits and degenerate-case guards.
+* GenNF localization: RSSI → ranges → strongest-4 anchor selection (correct UAV IDs) → geometric stage → GA-initialised ANN refinement.
+* Procedural 3D flood settlement (water, severity zones, buildings, roads/submerged roads, bridge, trees, base station, hazard cylinders).
+* Animated UAV patrols/missions with flight paths, RSSI links, truth-vs-estimate error lines, delivery points; play/pause/scrub in the browser.
+* Greedy first-aid allocation (urgency → nearest feasible idle UAV), mission timing, retry on missed drops.
+* Dashboard metrics computed from live simulation state; CSV export; research-experiment mode with baselines and ablations.
+
+## 3. Architecture & workflow
+```mermaid
+flowchart LR
+  V[Victim beacon<br/>hidden true position] -->|synthetic RSSI + noise| N[UAV network<br/>10 nodes]
+  N -->|RSSI vector only| G[GenNF<br/>select 4 anchors → geometry → GA-initialised ANN]
+  G --> E[Estimated 3D position]
+  E --> A[Allocation policy<br/>urgency, distance, battery]
+  A --> U[Assigned UAV flies, descends, delivers]
+  U --> S[Status: assisted / retry]
+  V -.evaluation only.-> M[Metrics: error, RMSE, MAE]
+  E -.-> M
+```
+`src/gennf/`: `rssi_model` · `localization` · `genetic_optimizer` · `neural_model` · `legacy_original` · `uav_network` · `flood_environment` · `rescue_allocation` · `simulation` · `experiments` · `metrics` · `visualization`. UI: `app.py`.
+
+## 4. Mathematics
+RSSI(d) = P₀ − 10·n·log₁₀(d/d₀) + 𝒩(0, σ²) dBm, inverted as d̂ = d₀·10^((P₀−RSSI)/(10n)). Distances use x, y **and** z.
+RMSE = √mean(‖êₛₜ − true‖²) is the **3D Euclidean** position RMSE; MAE is per-axis; mean error and success rate are reported separately.
+
+## 5. Install (Windows)
+```
+python -m venv .venv
+.venv\Scripts\activate
+python -m pip install -r requirements.txt
+```
+(macOS/Linux: `source .venv/bin/activate`.) Python 3.11 or 3.12.
+
+## 6. Run
+```
+python -m streamlit run app.py          # dashboard
+python -m pytest                        # tests (43)
+python scripts/run_experiment.py --seeds 0 1 2 3 4 --trials 200 --noise-sweep --ablation --out results
+python scripts/export_results.py --seed 42 --out results   # CSVs + standalone scene.html
+```
+**Playback:** the whole mission is simulated once, then played as Plotly frames in the browser (rotate/zoom/play/pause/scrub with the
+3D figure's own controls). The sidebar's *Run / Reset* re-simulates with new settings (seed, node count, noise, …); a step slider inspects
+metrics/charts at any time step. Limitation: changing a parameter requires a re-run rather than live mid-flight editing.
+CSV export: download buttons in the dashboard or `scripts/`.
+
+## 7. Example results (newly generated; 5 seeds × 200 trials, σ = 1 dB)
+| Method | Mean error (m) | RMSE 3D (m) | Success ≤ 20 m |
+|---|---|---|---|
+| GenNF (corrected) | 17.1 | 22.0 | 0.75 |
+| GenNF without GA init | 17.9 | 22.4 | 0.71 |
+| Geometric stage only | 19.6 | 26.3 | 0.67 |
+| Least squares, same 4 anchors | 24.0 | 35.8 | 0.61 |
+| Least squares, all anchors | 18.4 | 26.5 | 0.71 |
+
+Honest reading: modest gain over baselines at σ ≥ 1 dB, **no gain at σ = 0**, and **no clear benefit from the GA** in this setup. Full tables
+and caveats: [`docs/experimental_protocol.md`](docs/experimental_protocol.md). Published numbers are *not* reproduced.
+
+## 8. Reproducibility
+All randomness is seeded (`seed` in `SimConfig`/`ExperimentConfig`); tests assert identical outcomes for identical seeds.
+
+## 9. Limitations
+Synthetic log-distance RSSI only; one scenario; constant-speed kinematics; simulated battery; drop-zone radius is an assumption;
+allocation is a simple baseline; GenNF details are reconstructed from code + abstract. No screenshots/GIF are bundled yet — run the app and add them to `docs/images/`.
+
+## 10. Roadmap
+Verify GenNF against the paper's equations and add a "published results" comparison · shadowing/NLOS/multipath models · RSSI-guided
+UAV motion (active localization) · multi-target tracking · learned/auction task allocation · fair comparison with the paper's CNN-RNN/LSTM/GRU, particle and Kalman baselines.
+
+## 11. Citation
+See [`CITATION.cff`](CITATION.cff). Please cite the IEEE Access paper above (verify author list/DOI on IEEE Xplore). Replace `<YOUR NAME>` placeholders in `LICENSE`/`CITATION.cff`.
