@@ -5,6 +5,11 @@
 > Tagline: *RSSI-based 3D victim localization with Genetic Neural Fusion, driving a 10-UAV flood-rescue simulation.*
 > Suggested topics: `uav` `multi-agent-systems` `rssi` `localization` `genetic algorithm` `artificial neural network` `disaster-response` `plotly` `streamlit` `simulation`
 
+
+
+![Hospital AI Chatbot](3D%Genetic%Neural%Fusion%for%Multi-UAV.png)
+
+
 ⚠️ **Simulation only.** RSSI is synthetic and missions are simulated. Nothing here establishes field performance or is a real emergency system.
 
 ## 1. Relationship to the paper
