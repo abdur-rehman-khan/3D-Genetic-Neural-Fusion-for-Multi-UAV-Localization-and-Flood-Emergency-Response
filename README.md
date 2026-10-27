@@ -1,4 +1,4 @@
-# 3D Genetic Neural Fusion for Multi-UAV Localization and Flood Emergency Response
+# Genetic Neural Fusion (GenNF)  for Multi-UAV Localization and Flood Emergency Response
 **Multi UAV Localization and Flood Emergency Response**
 *An interactive Python simulation for RSSI-based 3D localization, cooperative UAV coordination, and first aid delivery in flood-affected environments.*
 
